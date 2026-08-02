@@ -94,16 +94,15 @@ which the official chain cannot run.
 ## Prerequisites
 
 - Node 20+, `pnpm` (or npm/yarn — lockfile is pnpm)
-- Engine files fetched with `pnpm engine:fetch` (~7 MB Stockfish Lite;
-  gitignored to keep the repo small)
+- Engine files are downloaded automatically on first `pnpm dev` / `pnpm build`
+  (~7 MB Stockfish Lite; gitignored to keep the repo small) — no manual step
 - SPFx 1.22-compatible tenant for the full demo (workbench works for UI only)
 
 ## Getting started
 
 ```sh
 pnpm install
-pnpm engine:fetch   # downloads the ~7 MB Stockfish Lite engine files (wasm + js)
-pnpm dev            # HTTPS dev server + SharePoint workbench (:4321)
+pnpm dev            # auto-fetches the ~7 MB Stockfish Lite engine if missing, then starts the HTTPS dev server + SharePoint workbench (:4321)
 ```
 
 ## Build / package / deploy
@@ -124,11 +123,26 @@ permissions are unavailable, it silently falls back to demo mode.
 ## Updating the engine
 
 The engine files live at `src/webparts/spfx-chess/engine/wasm/`
-(`stockfish-18-lite-single.js` + `.wasm`). They are gitignored, so after a
-fresh clone run `pnpm engine:fetch` once. To update to a newer Stockfish
-release, bump the version in `scripts/fetch-engine.mjs` and run
-`pnpm engine:fetch` again. The files are copied verbatim into the build output
-by a post-build copy script (`scripts/copy-engine-assets.mjs`). The engine is single-threaded, so no
+(`stockfish-18-lite-single.js` + `.wasm`). They are gitignored and
+auto-downloaded by `pnpm dev`, `pnpm build`, and `pnpm package` whenever they
+are missing — nothing to run by hand (dev only checks existence, so startup
+stays fast; downloads themselves are always verified against the pinned
+SHA-256). To verify the installed files against the pinned hashes:
+
+```sh
+pnpm check:engine
+```
+
+To force a re-download, or after bumping the version in
+`scripts/engine-assets.mjs` (which also needs the new hashes — regenerate with
+`shasum -a 256 <file>`), run:
+
+```sh
+pnpm engine:fetch
+```
+
+The files are copied verbatim into the build output by a post-build copy script
+(`scripts/copy-engine-assets.mjs`). The engine is single-threaded, so no
 COOP/COEP/SharedArrayBuffer headers are needed — SharePoint does not serve them.
 
 ## License / attribution

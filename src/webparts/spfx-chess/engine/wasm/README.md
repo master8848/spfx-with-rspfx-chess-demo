@@ -10,8 +10,10 @@ This folder holds the prebuilt chess engine shipped with the web part:
 ## Provenance
 
 Stockfish.js 18 Lite — single-threaded build from
-https://github.com/nmrugg/stockfish.js — downloaded via
-`pnpm engine:fetch`.
+https://github.com/nmrugg/stockfish.js — downloaded automatically by
+`pnpm dev` / `pnpm build` / `pnpm package` when missing (downloads are
+hash-verified). Verify the installed files with `pnpm check:engine`; run
+`pnpm engine:fetch` to force a re-download.
 
 License: GPL-3.0 (see https://github.com/nmrugg/stockfish.js).
 
@@ -24,7 +26,7 @@ fetches its `.wasm` from the same directory as the `.js` file.
 
 ## Updating
 
-Edit the version in `scripts/fetch-engine.mjs` and run:
+Edit the version and hashes in `scripts/engine-assets.mjs` and run:
 
 ```sh
 pnpm engine:fetch

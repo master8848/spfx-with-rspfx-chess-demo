@@ -5,7 +5,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "rspfx dev",
+    "dev": "node scripts/copy-engine-assets.mjs && rspfx dev",
     "build": "rspfx build && node scripts/copy-engine-assets.mjs",
     "typecheck": "tsc --noEmit",
     "package": "node scripts/copy-engine-assets.mjs && rspfx package",
@@ -14,7 +14,8 @@
     "doctor": "rspfx doctor",
     "playground": "rspfx playground",
     "clean": "rspfx clean",
-    "engine:fetch": "node scripts/fetch-engine.mjs"
+    "engine:fetch": "node scripts/engine-assets.mjs --force",
+    "check:engine": "node scripts/engine-assets.mjs --check"
   },
   "dependencies": {
     "@mbsks/rspfx-framework-solid": "^0.0.6",

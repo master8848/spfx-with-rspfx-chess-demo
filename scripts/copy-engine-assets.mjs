@@ -1,22 +1,23 @@
 #!/usr/bin/env node
 // Copies the Stockfish Lite engine assets from src/ into dist/ next to the
-// bundles, so the engine worker can fetch them at runtime. Plain Node, no deps.
-// Usage: pnpm build (runs automatically after rspfx build)
+// bundles, so the engine worker can fetch them at runtime. Downloads the
+// assets first if they are missing (fast existence check only — full SHA-256
+// verification lives in `pnpm check:engine`). Plain Node, no deps.
 
 import { copyFile, mkdir, stat } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { FILES, OUT_DIR, ensureEngineAssets } from './engine-assets.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const SRC_DIR = resolve(ROOT, 'src/webparts/spfx-chess/engine/wasm');
-const OUT_DIR = resolve(ROOT, 'dist');
-const FILES = ['stockfish-18-lite-single.js', 'stockfish-18-lite-single.wasm'];
+const DIST_DIR = resolve(ROOT, 'dist');
 
 async function main() {
-  await mkdir(OUT_DIR, { recursive: true });
+  await ensureEngineAssets();
+  await mkdir(DIST_DIR, { recursive: true });
   for (const name of FILES) {
-    const src = resolve(SRC_DIR, name);
-    const out = resolve(OUT_DIR, name);
+    const src = resolve(OUT_DIR, name);
+    const out = resolve(DIST_DIR, name);
     await copyFile(src, out);
     const size = ((await stat(out)).size / (1024 * 1024)).toFixed(2);
     console.log(`copied ${name} -> dist/ (${size} MB)`);
