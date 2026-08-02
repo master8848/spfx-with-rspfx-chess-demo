@@ -1,0 +1,34 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "bc14b852-5256-4137-bc0a-ef0ee88908ef",
+  "alias": "SpfxChessWebPart",
+  "componentType": "WebPart",
+  "version": "1.0.0",
+  "manifestVersion": 2,
+  "safeWithCustomScriptDisabled": true,
+  "supportsThemeVariants": true,
+  "supportedHosts": [
+    "SharePointWebPart",
+    "TeamsPersonalApp",
+    "TeamsTab",
+    "SharePointFullPage"
+  ],
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c31a052-22b4-4f36-8f7d-4b4d8c7c2e7a",
+      "group": {
+        "default": "Other"
+      },
+      "title": {
+        "default": "Play Fish"
+      },
+      "description": {
+        "default": "Play chess against Stockfish Lite — a real chess engine running in your browser via WebAssembly."
+      },
+      "officeFabricIconFontName": "Page",
+      "properties": {
+        "description": "Play Fish"
+      }
+    }
+  ]
+}

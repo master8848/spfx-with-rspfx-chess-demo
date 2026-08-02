@@ -1,0 +1,44 @@
+{
+  "name": "spfx-chess",
+  "version": "1.0.0",
+  "license": "GPL-3.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "rspfx dev",
+    "build": "rspfx build && node scripts/copy-engine-assets.mjs",
+    "typecheck": "tsc --noEmit",
+    "package": "node scripts/copy-engine-assets.mjs && rspfx package",
+    "deploy": "rspfx deploy",
+    "analyze": "rspfx analyze",
+    "doctor": "rspfx doctor",
+    "playground": "rspfx playground",
+    "clean": "rspfx clean",
+    "engine:fetch": "node scripts/fetch-engine.mjs"
+  },
+  "dependencies": {
+    "@mbsks/rspfx-framework-solid": "^0.0.6",
+    "@microsoft/sp-component-base": "1.22.0",
+    "@microsoft/sp-core-library": "1.22.0",
+    "@microsoft/sp-property-pane": "1.22.0",
+    "@microsoft/sp-webpart-base": "1.22.0",
+    "@pnp/sp": "^4.20.0",
+    "@tanstack/solid-query": "^5.101.4",
+    "@tanstack/solid-table": "^8.21.3",
+    "chess.js": "^1.4.0",
+    "chessground": "^9.2.1",
+    "solid-js": "^1.9.4"
+  },
+  "devDependencies": {
+    "@mbsks/rspfx-cli": "^0.0.6",
+    "@mbsks/rspfx-plugin": "^0.0.6",
+    "@tailwindcss/postcss": "^4.3.3",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.7.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher"
+    ]
+  }
+}

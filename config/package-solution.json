@@ -1,0 +1,43 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "spfx-chess-client-side-solution",
+    "id": "5c723c1e-213a-43a4-8417-69b591306a98",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "isDomainIsolated": false,
+    "skipFeatureDeployment": true,
+    "developer": {
+      "name": "spfx-chess",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "000000-0000"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "Play chess against Stockfish Lite — a real chess engine that runs in your browser via WebAssembly"
+      },
+      "longDescription": {
+        "default": "Play chess against Stockfish Lite, a real chess engine compiled to WebAssembly that runs entirely in your browser. Choose from 7 difficulty levels, from novice to grandmaster. Games are saved to a SharePoint list so you can reload, review, and delete them at any time."
+      },
+      "categories": [],
+      "screenshotPaths": []
+    },
+    "features": [
+      {
+        "title": "SpfxChess Feature",
+        "description": "A feature which activates the Client-Side WebPart named 'SpfxChess'",
+        "id": "a553ed97-7383-4047-807a-40dfb0fa80b7",
+        "version": "1.0.0.0",
+        "assets": {
+          "elementManifests": [],
+          "elementFiles": []
+        }
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "sharepoint/solution/spfx-chess.sppkg"
+  }
+}

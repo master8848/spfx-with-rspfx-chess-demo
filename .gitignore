@@ -1,0 +1,11 @@
+node_modules/
+dist/
+release/
+temp/
+.rspfx/
+.rspack-cache/
+sharepoint/solution/
+*.sppkg
+.DS_Store
+src/webparts/spfx-chess/engine/wasm/stockfish-18-lite-single.js
+src/webparts/spfx-chess/engine/wasm/stockfish-18-lite-single.wasm
