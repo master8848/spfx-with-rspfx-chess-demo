@@ -16,6 +16,7 @@ export default {
       fluent: false,
       language: 'typescript',
       styling: 'tailwind',
+      teams: true,
       dev: {
         port: 4321,
         https: true,
@@ -23,6 +24,7 @@ export default {
         workbench: true,
         openBrowser: true
       },
+
       build: {
         sourcemap: false,
         minify: true,

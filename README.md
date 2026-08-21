@@ -109,7 +109,7 @@ pnpm dev            # auto-fetches the ~7 MB Stockfish Lite engine if missing, t
 
 ```sh
 pnpm typecheck      # tsc --noEmit
-pnpm build          # rspack production build → dist/
+pnpm build          # rspack production build → dist/ + release/
 pnpm package        # → sharepoint/solution/spfx-chess.sppkg
 pnpm deploy         # upload to the app catalog (RSPFX_ACCESS_TOKEN + RSPFX_APP_CATALOG_URL)
 ```
@@ -119,6 +119,72 @@ the **Play Fish** web part on a page. On first use the web part creates the
 `Chess Games` list (with PGN/Moves/Result/WhiteElo/BlackElo/WhiteName/BlackName/Site
 columns) if it does not exist, and reuses it afterwards. If the list or the site
 permissions are unavailable, it silently falls back to demo mode.
+
+### Deployment steps in detail
+
+1. **Build** — `pnpm build` (`rspfx build`) compiles `src/webparts/spfx-chess` via Rspack → `dist/spfx-chess.js` (AMD) + `release/manifests/<id>.manifest.json` + `release/assets/*`.
+2. **Package** — `pnpm package` (`rspfx package`) zips the solution defined in `config/package-solution.json` → `sharepoint/solution/spfx-chess.sppkg` (DEFLATE zip, path from `paths.zippedPackage`).
+3. **Upload to app catalog** — open the tenant app catalog `https://{tenantdomain}/sites/appcatalog` → `Apps for SharePoint` → drag-drop the `.sppkg` → **Deploy** / **Enable and add to all sites** (`skipFeatureDeployment:true` makes it tenant-scoped, required for *Sync to Teams*). See Microsoft Learn: [Publish SPFx solutions](https://learn.microsoft.com/en-us/sharepoint/dev/spfx/toolchain/package-and-deploy) · [Use the app catalog](https://learn.microsoft.com/en-us/sharepoint/use-app-catalog) · [Tenant-scoped deployment](https://learn.microsoft.com/en-us/sharepoint/dev/spfx/tenant-scoped-deployment).
+4. **Add to site & page** — `Site Contents → Add an app → spfx-chess` (skipped when tenant-scoped) → edit a `Site Pages` page → `+` → search **Play Fish** (`preconfiguredEntries[0].title`) → Publish.
+5. **Teams / Outlook** — when `teams/manifest.json` was present at package time the catalog shows **Sync to Teams**; select the app → *Sync to Teams* → in Teams Admin Center set *Allowed* → users add via `Teams → Apps → Built for your org` (personal `staticTabs`) or `Add to team` (`configurableTabs`); same app appears in new Outlook after 10–120 min sync. See [Integrate SPFx with Teams](https://learn.microsoft.com/en-us/sharepoint/dev/spfx/integrate-with-teams-introduction) · [Teams manifest schema](https://learn.microsoft.com/en-us/microsoftteams/platform/resources/schema/manifest-schema). Automated alternative: `pnpm deploy` / `rspfx deploy` with `RSPFX_ACCESS_TOKEN` + `RSPFX_APP_CATALOG_URL` env vars.
+
+> Full pipeline reference: base lib [`docs/deployment.md`](../spfx/docs/deployment.md) and [`docs/project-structure.md`](../spfx/docs/project-structure.md).
+
+### Env vars & tokens in `config/serve.json`
+
+`config/serve.json` supports dotenv + shell expansion before `expandEnvVars()` resolves the workbench URL:
+
+| Syntax | Meaning | Example |
+|---|---|---|
+| `${VAR}` | `process.env[VAR]` or `""` | `"initialPage": "https://${MY_TENANT}/_layouts/15/workbench.aspx"` |
+| `${VAR:-default}` | default when unset/empty | `"initialPage": "https://${SPFX_TENANT:-contoso.sharepoint.com}/_layouts/15/workbench.aspx"` |
+| `$VAR` | bare-dollar | `"hostname": "$HOSTNAME"` |
+| `.env` file | `KEY=VALUE` loaded first (no override if already set) | `.env: SPFX_SERVE_TENANT_DOMAIN=contoso.sharepoint.com` |
+
+Special token `{tenantdomain}` (case-insensitive) in `initialPage` → replaced by `dev.tenantUrl` / `SPFX_SERVE_TENANT_DOMAIN` / `--tenant`. Example used here: `https://{tenantdomain}/_layouts/15/workbench.aspx`. See [SPFx serve configuration](https://learn.microsoft.com/en-us/sharepoint/dev/spfx/toolchain/serve-configuration) and base lib `docs/deployment.md` §10.
+
+## Project structure & file paths
+
+| File path | Purpose | When created |
+|---|---|---|
+| `rspack.config.ts` | Rspack + `RspfxPlugin` (`name`, `framework`, `spfxVersion`, `teams`, `dev`, `build`). Single config drives the build. | Scaffolded |
+| `config/serve.json` | Dev server: `initialPage` (`{tenantdomain}` token + env expansion), `https`, `port`, `hostname`. | Auto-created if missing |
+| `config/package-solution.json` | Solution metadata (`solution.id`, `version` 4-part, `includeClientSideAssets`, `skipFeatureDeployment`, `developer`, `metadata`, `features`, `paths.zippedPackage`). | Required |
+| `config/write-manifests.json` | Release `cdnBasePath` (empty → assets embedded via `ClientSideAssets/`, non-empty → external CDN). | Auto-created if missing |
+| `config/config.json` | Optional explicit `bundles`/`externals`/`localizedResources`; when absent folder scan is used. | Auto-created if missing |
+| `src/webparts/spfx-chess/` | Web part folder — **folder name = bundleName** (`scanComponentDir` enumerates `src/webparts/*`). | One per web part |
+| `src/webparts/spfx-chess/spfx-chess.manifest.json` | Component manifest (`id` UUID, `alias`, `version:"*"`, `supportedHosts`, `preconfiguredEntries`). First `*.manifest.json` in folder wins. | One per web part |
+| `src/webparts/spfx-chess/SpfxChessWebPart.ts` | Entrypoint class (`extends SolidWebPart`); resolved by `pickEntrypoint()` precedence (`index.ts` → `<name>WebPart.ts` → single `*.ts` fallback). | One per web part |
+| `teams/manifest.json` | Teams app manifest v1.13 (`id`/`entityId` = component `id`, `validDomains`, tabs). Only when `teams: true` in `RspfxPlugin`. | Auto-created when `teams.enabled` |
+| `teams/*_color.png` / `*_outline.png` | 192×192 / 32×32 Teams icons — filename `<id>_color.png` / `<id>_outline.png`. | With teams |
+| `dist/` | Build output (`build.outDir`) — AMD bundle `dist/spfx-chess.js`, chunks. | `rspfx build` |
+| `release/manifests/<id>.manifest.json` | Production manifests (`version:"*"` → `package.json` version, `loaderConfig.entryModuleId = bundleName`). | `assembleRelease()` |
+| `release/assets/*` | Copy of `dist/` (no maps/manifests) embedded in `.sppkg` when `includeClientSideAssets:true`. | Same |
+| `sharepoint/solution/spfx-chess.sppkg` | Solution package (DEFLATE zip) from `paths.zippedPackage`. Contains `AppManifest.xml`, `feature_*.xml`, `WebPart_*.xml`, `ClientSideAssets/*` + `teams/*`. | `rspfx package` |
+| `sharepoint/solution/debug/` | Debug dump of zip entries. | Package |
+| `.env` / `.env.local` | Optional dotenv for `serve.json` expansion (`SPFX_SERVE_TENANT_DOMAIN`, etc.). Gitignored. | User-provided |
+
+More detail: [`docs/deployment.md`](../spfx/docs/deployment.md), [`docs/project-structure.md`](../spfx/docs/project-structure.md), official [Serve configuration](https://learn.microsoft.com/en-us/sharepoint/dev/spfx/toolchain/serve-configuration) and [Manifest schema](https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json).
+
+### Web part folder & naming rules
+
+- **Folder = bundleName**. `src/webparts/spfx-chess/` → bundle `spfx-chess` → `dist/spfx-chess.js` → `loaderConfig.entryModuleId = "spfx-chess"` → `scriptResources["spfx-chess"].path = "spfx-chess.js"`. Renaming the folder renames the bundle (unless `config/config.json` `bundles` overrides it — then `bundles.<bundleName>.components[0].entrypoint` is authoritative; keep them equal to avoid confusion).
+- **Manifest location**. `src/webparts/spfx-chess/spfx-chess.manifest.json` — exactly one `*.manifest.json` per folder. Convention repeats the folder name; if two exist the first lexicographic entry wins (`MULTIPLE_MANIFESTS` error when generating). See `scanComponentDir` / `generateComponentManifests` in base lib.
+- **Entrypoint vs folder**. `SpfxChessWebPart.ts` is found by `pickEntrypoint()`: `index.ts` → `index.tsx` → `<folder>WebPart.ts` → `<folder>WebPart.tsx` → … → lone `*.ts` fallback. This repo uses `src/webparts/spfx-chess/SpfxChessWebPart.ts` (`<Pascal><WebPart>.ts` derived from folder `spfx-chess` → `SpfxChess`). `index.ts` would win if present.
+- **ID sync with Teams manifest**. `src/webparts/spfx-chess/spfx-chess.manifest.json#id = bc14b852-5256-4137-bc0a-ef0ee88908ef` **must** equal `teams/manifest.json#id` and `staticTabs[0].entityId` (Teams `contentUrl` embeds `componentId=<id>`). Changing the web part `id` without regenerating `teams/manifest.json` breaks *Sync to Teams* (`Invalid Teams manifest`).
+- **What can be changed freely vs must stay in sync**:
+
+  | Field | Freely change? | Sync requirement |
+  |---|---|---|
+  | Folder `spfx-chess` | No (renames bundle) | `bundleName` → `dist/<bundle>.js` + `entryModuleId` |
+  | Manifest filename | Yes if single file | Keep `<name>.manifest.json` |
+  | `manifest.id` (UUID) | Generate once, freeze | Must match `teams/manifest.json#id` + `entityId`; unique globally, AMD `define('<id>_<version>',…)` |
+  | `manifest.alias` | Yes | None |
+  | `preconfiguredEntries[0].title/description/group` | Yes (page picker label) | None — `groupId` any GUID |
+  | `supportedHosts` | Yes | At least one; include `TeamsPersonalApp`/`TeamsTab` for Teams |
+  | `package.json#version` vs `package-solution.json#solution.version` | Bump together | `solution.version` 4-part is catalog upgrade key; `package.json` version is `_<version>` suffix |
+  | `teams/manifest.json#packageName` | Yes (reverse-DNS) | Must be unique |
+  | `teams/manifest.json#validDomains` | Add `*.outlook.office.com` etc. | Must include `*.sharepoint.com`, `*.office.com`, etc. or Teams white-screens |
 
 ## Updating the engine
 
