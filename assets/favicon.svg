@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" rx="7" fill="#111827"/>
+  <!-- Chess board 20x20 -->
+  <rect x="6" y="4" width="20" height="20" rx="2" fill="#fefce8" stroke="#e5e7eb" stroke-width="0.5"/>
+  <!-- board squares 4x4 -->
+  <rect x="6" y="4" width="5" height="5" fill="#fefce8"/>
+  <rect x="11" y="4" width="5" height="5" fill="#1f2937"/>
+  <rect x="16" y="4" width="5" height="5" fill="#fefce8"/>
+  <rect x="21" y="4" width="5" height="5" fill="#1f2937"/>
+  <rect x="6" y="9" width="5" height="5" fill="#1f2937"/>
+  <rect x="11" y="9" width="5" height="5" fill="#fefce8"/>
+  <rect x="16" y="9" width="5" height="5" fill="#1f2937"/>
+  <rect x="21" y="9" width="5" height="5" fill="#fefce8"/>
+  <rect x="6" y="14" width="5" height="5" fill="#fefce8"/>
+  <rect x="11" y="14" width="5" height="5" fill="#1f2937"/>
+  <rect x="16" y="14" width="5" height="5" fill="#fefce8"/>
+  <rect x="21" y="14" width="5" height="5" fill="#1f2937"/>
+  <rect x="6" y="19" width="5" height="5" fill="#1f2937"/>
+  <rect x="11" y="19" width="5" height="5" fill="#fefce8"/>
+  <rect x="16" y="19" width="5" height="5" fill="#1f2937"/>
+  <rect x="21" y="19" width="5" height="5" fill="#fefce8"/>
+  <!-- Knight silhouette centered -->
+  <path d="M16.2 8.2c1.2 0 2.3 0.7 2.3 1.9 0 0.6-0.3 1-0.7 1.4 0.4 0.2 0.8 0.6 0.8 1.3v2.1c0 0.6-0.2 1.1-0.6 1.5 0.3 0.4 0.6 1 0.6 1.8l-1.7 0c0-0.4-0.1-0.7-0.3-1 -0.6 0.4-1.5 0.7-2.6 0.7-1.6 0-2.6-0.6-2.6-1.7 0-0.7 0.5-1.1 1.2-1.4 -0.2-0.3-0.3-0.7-0.3-1.1 0-1 0.7-1.8 1.9-1.8 0.4 0 0.7 0.1 1 0.2 0.2-0.5 0.6-0.9 1-0.9z" fill="#f59e0b" stroke="#111827" stroke-width="0.4" stroke-linejoin="round"/>
+  <!-- SPFx S badge -->
+  <circle cx="16" cy="27.2" r="5.2" fill="#0078d4"/>
+  <text x="16" y="30.2" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-weight="700" font-size="7" fill="#fff">♔</text>
+</svg>

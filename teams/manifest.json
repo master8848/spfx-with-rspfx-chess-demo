@@ -1,0 +1,64 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.13/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.13",
+  "version": "1.0.0",
+  "id": "bc14b852-5256-4137-bc0a-ef0ee88908ef",
+  "packageName": "com.contoso.spfx-chess",
+  "developer": {
+    "name": "Play Fish — SPFx Chess",
+    "websiteUrl": "https://github.com/master8848/rspfx",
+    "privacyUrl": "https://privacy.microsoft.com/en-us/privacystatement",
+    "termsOfUseUrl": "https://www.microsoft.com/en-us/servicesagreement"
+  },
+  "name": {
+    "short": "Play Fish",
+    "full": "Play Fish — Chess vs Stockfish"
+  },
+  "description": {
+    "short": "Play chess vs Stockfish Lite in Teams/Outlook",
+    "full": "Play Fish — chess against Stockfish 18 Lite (WebAssembly, 7 Elo levels). Runs in SharePoint, Teams and Outlook. Games saved to SharePoint list."
+  },
+  "icons": {
+    "outline": "bc14b852-5256-4137-bc0a-ef0ee88908ef_outline.png",
+    "color": "bc14b852-5256-4137-bc0a-ef0ee88908ef_color.png"
+  },
+  "accentColor": "#f59e0b",
+  "staticTabs": [
+    {
+      "entityId": "bc14b852-5256-4137-bc0a-ef0ee88908ef",
+      "name": "Play Fish",
+      "contentUrl": "https://{teamSiteDomain}{teamSitePath}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest={teamSitePath}/_layouts/15/teamshostedapp.aspx%3FopenPropertyPane=true%26teams%26componentId=bc14b852-5256-4137-bc0a-ef0ee88908ef%26forceLocale={locale}",
+      "websiteUrl": "https://products.office.com/en-us/sharepoint/collaboration",
+      "scopes": [
+        "personal"
+      ]
+    }
+  ],
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://{teamSiteDomain}{teamSitePath}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest={teamSitePath}/_layouts/15/teamshostedapp.aspx%3FopenPropertyPane=true%26teams%26componentId=bc14b852-5256-4137-bc0a-ef0ee88908ef%26forceLocale={locale}",
+      "canUpdateConfiguration": true,
+      "scopes": [
+        "team"
+      ]
+    }
+  ],
+  "validDomains": [
+    "*.login.microsoftonline.com",
+    "*.sharepoint.com",
+    "*.sharepoint-df.com",
+    "spoppe-a.akamaihd.net",
+    "spoprod-a.akamaihd.net",
+    "*.microsoftonline.com",
+    "*.microsoftonline-p.com",
+    "*.msauth.net",
+    "*.msauthimages.net",
+    "*.msftauth.net",
+    "*.msftauthimages.net",
+    "*.office.com",
+    "*.outlook.office.com",
+    "*.outlook.office365.com",
+    "*.officeapps.live.com",
+    "*.secure.aadcdn.microsoftonline-p.com"
+  ]
+}

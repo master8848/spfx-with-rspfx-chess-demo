@@ -1115,7 +1115,7 @@ export default function SpfxChess(props: ISpfxChessProps): JSX.Element {
                     SET THE <em class="text-ember drop-shadow-[0_0_12px_rgba(255,74,17,0.4)]">STAKES</em>
                   </h2>
                   <p class="mt-2 text-xs leading-relaxed text-ink-muted sm:text-sm">
-                    Pick an opponent, your color, and how long the fire burns. The engine never blinks — beat it anyway.
+                    Pick an thishello again , your color, and how long the fire burns. The engine never blinks — beat it anyway.
                   </p>
                 </div>
 

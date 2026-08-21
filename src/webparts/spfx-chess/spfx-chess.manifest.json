@@ -25,7 +25,7 @@
       "description": {
         "default": "Play chess against Stockfish Lite — a real chess engine running in your browser via WebAssembly."
       },
-      "officeFabricIconFontName": "Page",
+      "officeFabricIconFontName": "Chess",
       "properties": {
         "description": "Play Fish"
       }
