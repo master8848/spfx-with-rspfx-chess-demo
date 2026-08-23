@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "rspfx": {
+      "source": "master8848/rspfx",
+      "sourceType": "github",
+      "skillPath": "skills/rspfx/SKILL.md",
+      "computedHash": "f7b64bee0b9febd0d8c7fd2084e84bad8ffb1982a7aae3ccb31b112d4e4d18ba"
+    }
+  }
+}
