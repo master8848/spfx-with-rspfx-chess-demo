@@ -12,3 +12,4 @@ sharepoint/solution/
 .env.*.local
 src/webparts/spfx-chess/engine/wasm/stockfish-18-lite-single.js
 src/webparts/spfx-chess/engine/wasm/stockfish-18-lite-single.wasm
+*.tgz

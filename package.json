@@ -15,7 +15,8 @@
     "playground": "rspfx playground",
     "clean": "rspfx clean",
     "engine:fetch": "node scripts/engine-assets.mjs --force",
-    "check:engine": "node scripts/engine-assets.mjs --check"
+    "check:engine": "node scripts/engine-assets.mjs --check",
+    "postinstall": "node scripts/patch-rspfx-tailwind.mjs || true"
   },
   "dependencies": {
     "@mbsks/rspfx-framework-solid": "^0.0.13",
