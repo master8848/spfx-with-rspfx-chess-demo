@@ -21,6 +21,7 @@
         "@mbsks/rspfx-cli": "^0.0.9",
         "@mbsks/rspfx-plugin": "^0.0.9",
         "@tailwindcss/postcss": "^4.3.3",
+        "postcss": "^8.5.25",
         "tailwindcss": "^4.3.3",
         "typescript": "^5.7.0",
       },

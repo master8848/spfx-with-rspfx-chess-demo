@@ -1,7 +1,7 @@
-import { RspfxPlugin } from '@mbsks/rspfx-plugin';
+import { RspfxPlugin, rspfxResolve } from '@mbsks/rspfx-plugin';
 
 export default {
-  mode: 'development',
+  resolve: rspfxResolve(),
   module: {
     rules: [
       { test: /\.wasm$/, type: 'asset/resource' }
@@ -15,8 +15,6 @@ export default {
       spfxVersion: '1.22',
       fluent: false,
       language: 'typescript',
-      styling: 'tailwind',
-      teams: true,
       dev: {
         port: 4321,
         https: true,
