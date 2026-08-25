@@ -1,141 +1,139 @@
 ---
 name: rspfx
-description: Build SharePoint Framework (SPFx) web parts with RSPFX (community, Rspack-powered) or the official Microsoft Heft toolchain. Use for scaffolding (rspfx new), dev server, packaging .sppkg, and choosing toolchains.
+description: Build SharePoint Framework (SPFx) web parts with RSPFX (community, Vite-powered) or the official Microsoft Heft toolchain. Use for scaffolding (rspfx new), dev server, packaging .sppkg, and choosing toolchains.
 ---
 
 # RSPFX — Fast SPFx Toolchain
 
-RSPFX is a community replacement for the official SPFx toolchain (Heft + webpack + gulp). It builds the same `.sppkg` packages but is faster and more flexible.
+RSPFX builds `sharepoint/solution/*.sppkg` without Heft/webpack/gulp, using `Vite` (default) — covers almost everything. `Rsbuild` only if user insists. `Rspack` only in very niche cases (rarely needed).
 
-- **Fast** — Rust-based Rspack, much quicker than webpack.
-- **Any frontend** — React, Vue, Svelte, Solid, Preact, or vanilla. Official SPFx is React-only.
-- **Any bundler** — Rspack (default), Vite, or Rsbuild. One config file.
-- **Same output** — web parts, extensions, and libraries that run in SharePoint and Teams.
+Supports SPFx `1.20`, `1.21`, `1.22`, `1.23` (default 1.23, `packages/core/src/versions.ts:13`), Node `20+`, React/Vue/Svelte/Solid/Preact/vanilla, multi-webpart, Teams/Outlook.
 
-> **Not supported by Microsoft.** Microsoft only supports the Heft toolchain (see bottom of this file). Use RSPFX when you want speed and flexibility. Use Heft when you need official support.
+> Not Microsoft-supported. Need support/Angular/`<1.20`/on-prem → use Heft (bottom).
 
-Supports SPFx 1.20–1.23, Node 20+, multiple web parts per package, Teams/Outlook install, and multiple languages.
+## Source & inspection (AI-first)
+
+This repo is AI-maintained. Docs/skill can lag — **code is truth**.
+
+- **Repo:** `https://github.com/master8848/rspfx` (`skills/rspfx/SKILL.md`, `docs/*.md`, `ARCHITECTURE.md`).
+- **When to read code:** limitation, config not working, bundler behavior — check `packages/plugin/src/vite.ts`, `packages/plugin/src/rsbuild.ts`, `packages/compiler-rspack/*`, `apps/cli/src/*` directly instead of guessing from docs.
+- **Version:** `rspfx --version` (or `npx @mbsks/rspfx-cli --version`), `package.json` `version`, `CHANGELOG.md` `## [X.Y.Z]`, git tag `vX.Y.Z`.
+- **Clone to inspect (temp):** `git clone https://github.com/master8848/rspfx.git $(mktemp -d)` — AI picks temp per OS (`mktemp -d` / `$TMPDIR` / `$env:TEMP`). No need to keep; inspect and discard.
+
+Skill + `docs/` is enough for all workflows; drill into `docs/` or code only when needed.
+
+## When to use which
+
+| Need | Use |
+|---|---|
+| Speed, any framework, `1.20`–`1.23` | **RSPFX** |
+| Microsoft support, Angular, `<1.19`, on-prem | **Heft** |
+
+## Framework support
+
+| Framework | RSPFX | Heft |
+|---|---|---|
+| React, vanilla | ✓ | ✓ |
+| Vue, Svelte, Solid, Preact | ✓ | — |
 
 ## Install
 
 ```sh
-npm i -g @mbsks/rspfx-cli@0.0.11
-rspfx --version
-rspfx --help
+npx @mbsks/rspfx-cli --help
+npm i -g @mbsks/rspfx-cli   # optional
+rspfx --version; rspfx --help
 ```
 
-All `@mbsks/rspfx-*` packages share the same version. Upgrade with `npm i -g @mbsks/rspfx-cli@latest`.
-
-## Create a project
+## Existing project — quickest switch
 
 ```sh
-rspfx new my-app              # interactive prompts
-rspfx new my-app --yes        # accept defaults
+npx @mbsks/rspfx-cli migrate --dry-run   # preview
+npx @mbsks/rspfx-cli migrate              # writes vite.config.ts (default)
+pnpm install; pnpm dev; pnpm build
 ```
 
-Common options:
+Idempotent, touches only `package.json`, `config/config.json`, `tsconfig.json` if rig-based, and removes `config/rig.json` etc. Rewrites `@import 'pkg:…'` SCSS. Flags: `--dry-run`, `--bundler vite|rsbuild|rspack` (default `vite`; `rsbuild` if persist, `rspack` very niche), `--revert` (or `git restore .`).
 
-- `--framework vanilla | react | vue | svelte | solid | preact`
-- `--language ts | js`
-- `--spfx-version 1.20 | 1.21 | 1.22 | 1.23` (default 1.23)
-- `--pm pnpm | npm | yarn`
-- `--component webpart | applicationcustomizer | fieldcustomizer | listviewcommandset | formcustomizer | library`
-- `--no-install` — skip installing dependencies
+Manifests stay: `config/package-solution.json`, `src/*/*.manifest.json`. `rspfx dev` synthesizes `config/` so `gulpfile.js` can stay. Native `npx vite build` / `npx rsbuild build` / `npx rspack build` all work after migrate.
 
-Example (no prompts):
+Docs: `docs/migrating-from-gulp-heft.md`, `docs/why-not-to-migrate.md`.
+
+Keep both: `gulpfile.js` + `vite.config.ts` on disk, dual scripts `build:heft` / `build:rspfx`. Commit before migrate.
+
+## New project
 
 ```sh
-rspfx new my-app --framework react --language ts --spfx-version 1.22 --pm pnpm --yes
+rspfx new my-app --yes
+rspfx new my-app --framework react --language ts --spfx-version 1.23 --pm pnpm --yes
 ```
 
-Docs: `docs/getting-started.md`, `docs/compatibility.md`
+Flags: `--framework vanilla|react|vue|svelte|solid|preact`, `--language ts|js`, `--spfx-version 1.20-1.23`, `--pm pnpm|npm|yarn`, `--component webpart|applicationcustomizer|...|library`, `--no-install`. Layout: `src/webparts/<name>/`, `config/package-solution.json`.
 
-## Develop
+## Develop and build
 
 ```sh
-rspfx dev                                      # local preview at http://localhost:4321
-rspfx dev --tenant https://contoso.sharepoint.com  # SharePoint workbench (HTTPS)
-rspfx dev --refresh                            # keep state on reload
-rspfx dev --mode local                         # force local preview
+pnpm dev -- --tenant https://contoso.sharepoint.com  # SharePoint workbench (HTTPS)
+pnpm dev                                              # local http://localhost:4321
+rspfx dev --refresh; rspfx dev --mode local
+rspfx build; rspfx package; rspfx doctor; rspfx analyze; rspfx clean
 ```
 
-- **Local preview** (default, no tenant) — plain HTTP, no certificate needed. Shows all web parts and extensions. Add `?locale=fr-fr` to preview another language.
-- **SharePoint mode** (when a tenant is set) — HTTPS on `https://localhost:4321`. Needs a self-signed cert in `~/.rspfx/certs`. The CLI prints how to trust it.
-- Set your tenant via `dev.tenantUrl` in config, `SPFX_SERVE_TENANT_DOMAIN` env var, or `--tenant` flag.
+Local: `http://localhost:4321` no cert. SharePoint: `https://localhost:4321` cert in `~/.rspfx/certs` (tenant via `dev.tenantUrl` in `vite.config.ts` or `--tenant` / `SPFX_SERVE_TENANT_DOMAIN`).
 
-## Build, package, deploy
+Docs: `docs/getting-started.md`, `docs/commands.md`, `docs/building-packages.md`.
 
-```sh
-rspfx build     # production bundles to dist/ + release/
-rspfx package   # build + create sharepoint/solution/<name>.sppkg
-rspfx deploy    # upload to app catalog (needs RSPFX_ACCESS_TOKEN + RSPFX_APP_CATALOG_URL)
-rspfx doctor    # check setup — run this first if something breaks
-rspfx analyze   # bundle size report
-rspfx clean     # remove build output
-```
+No `@microsoft/sp-*` install needed — `spfxVersion` pins versions, plugin externalizes `sp-*` (`packages/core/src/versions.ts:13`).
 
-To install manually: upload the `.sppkg` to your app catalog → Deploy → add it to a site.
+## Config — bundler owns it
 
-Docs: `docs/commands.md`, `docs/building-packages.md`, `docs/deployment.md`
-
-## Config
-
-Your project config lives inside your bundler config. The CLI finds it automatically.
-
-**Rspack** (`rspack.config.ts`, default):
+Default Vite. Only deviate with reason.
 
 ```ts
-import { RspfxPlugin } from '@mbsks/rspfx-plugin';
-export default {
-  plugins: [new RspfxPlugin({
-    name: 'my-app', framework: 'react', spfxVersion: '1.22',
-    dev: { tenantUrl: 'https://contoso.sharepoint.com' }
-  })]
-};
+// vite.config.ts (default)
+import { defineConfig } from 'vite';
+import { rspfxVite } from '@mbsks/rspfx-plugin';
+export default defineConfig({ plugins: [rspfxVite({ name: 'my-app', framework: 'react', spfxVersion: '1.23', dev: { tenantUrl: 'https://contoso.sharepoint.com' } })] });
 ```
 
-**Vite** (`vite.config.ts`): `plugins: [rspfxVite({ ... })]`
-**Rsbuild** (`rsbuild.config.ts`): `plugins: [rspfxRsbuild({ ... })]`
+- `rsbuild.config.ts`: `plugins: [rspfxRsbuild({ ... })]` — if user insists on Rsbuild.
+- `rspack.config.ts`: `plugins: [new RspfxPlugin({ ... })]` — very niche only.
 
-To migrate an existing project: `node scripts/migrate-to-rspfx.mjs .`
+Options: `name`, `spfxVersion`, `framework`, `language`, `dev.port/tenantUrl/openBrowser/fastRefresh`, `build.outDir/releaseDir`, `paths.*`, `deploy.appCatalogSiteUrl`.
 
-Docs: `docs/commands.md#project-config-as-a-bundler-plugin`
+## Styling
 
-## Teams and Outlook
+Vite is default for all FE work incl. styling. All CSS inlined (`build.cssCodeSplit:false` / `output.injectStyles:true`); never `type:"css"` / `CssExtractRspackPlugin`. `.sppkg` has no external CSS.
 
-One `.sppkg` can also install as a Teams/Outlook app.
+- `*.module.css/scss` → CSS Modules `auto: /\.module\.\w+$/i` `asIs` (Vite `scopeBehaviour:'local'`); plain `*.css/scss` → global. Need SCSS: `pnpm add -D sass`.
+- Tailwind v4: `pnpm add -D tailwindcss @tailwindcss/postcss postcss`, `postcss.config.mjs` `{plugins:{"@tailwindcss/postcss":{}}}`, `src/app.css` `@import "tailwindcss"`, import in web part. Detected via `postcss.config.*` incl. `.json`.
 
-1. `rspfx package` — includes `teams/manifest.json` automatically.
-2. Upload `.sppkg` to app catalog → Deploy → **Sync to Teams**.
-3. Find it in Teams → Apps → Built for your org. It appears in new Outlook after a short delay (10–120 min).
+Refs: `packages/plugin/src/vite.ts:330`, `packages/compiler-rspack/src/config.ts:212`, `packages/compiler-rspack/src/helpers/css.ts:38`, `docs/styling.md`.
 
-Docs: `docs/teams-outlook-install.md`
+## Query lists — prefer PnPjs
 
-## More
+```sh
+pnpm add @pnp/sp @pnp/graph
+```
+`onInit`: `spfi().using(SPFx(this.context))` → `sp.web.lists.getByTitle("MyList").items.select("Title").top(10)()` (add `.filter`/`.expand`/`.paged()`/`Caching()`/batch). Fallback `SPHttpClient` only for edge cases. https://pnp.github.io/pnpjs/
 
-- **Multiple web parts in one package** — copy `src/webparts/<name>/` to a new folder, give it a new `id` and name. See `docs/multi-webpart.md`.
-- **Assets** — put shared files in `assets/` (e.g. `assets/favicon.svg` for local preview). Web part images go in `src/webparts/<name>/assets/`.
-- **Environment variables** — `RSPFX_LOG_LEVEL`, `SPFX_SERVE_TENANT_DOMAIN`, `RSPFX_ACCESS_TOKEN`, `RSPFX_APP_CATALOG_URL`. See `docs/commands.md#environment-variables`.
+## Teams, multi-webpart, assets
+
+One `.sppkg` → Teams/Outlook via `teams/manifest.json` sync. Multi: copy `src/webparts/<name>/` with new `id` in `*.manifest.json` (`docs/multi-webpart.md`). Assets: `assets/` preview, `src/webparts/<name>/assets/` web part. Env: `RSPFX_LOG_LEVEL`, `SPFX_SERVE_TENANT_DOMAIN`, `RSPFX_ACCESS_TOKEN`, `RSPFX_APP_CATALOG_URL`.
+
+## Tips
+
+- `git commit` + `--dry-run` before `migrate`; `rspfx doctor` after.
+- Bundler: default Vite; `Rsbuild` only if persist; `Rspack` very niche — almost never needed.
+- `pnpm dev` 404 → `config/config.json` bundle key ≠ `src/webparts/<name>` folder.
+- Set `dev.tenantUrl` in `vite.config.ts` once.
 
 ---
 
-## Official Microsoft toolchain (Heft)
-
-Use this when you need Microsoft support, Angular, or SPFx < 1.20.
+## Official Heft (when required)
 
 ```sh
-npm install @rushstack/heft yo @microsoft/generator-sharepoint --global
-yo @microsoft/sharepoint
-cd my-app && npm install
-heft trust-dev-cert
-heft start --clean          # dev server
-heft build                  # build
-heft package-solution --production  # → .sppkg
+npm i -g @rushstack/heft yo @microsoft/generator-sharepoint
+yo @microsoft/sharepoint; heft start --clean; heft build; heft package-solution --production
 ```
 
-For SPFx ≤ 1.21.1 the older `gulp` toolchain is used (`gulp serve`, `gulp bundle --ship`). Microsoft docs: https://learn.microsoft.com/sharepoint/dev/spfx/set-up-your-development-environment
-
-| Need | Use |
-|---|---|
-| Speed, any frontend/bundler, Teams/Outlook, multi-webpart, SPFx 1.20–1.23 | **RSPFX** |
-| Microsoft support, Angular, older SPFx, on-prem | **Official Heft** |
+`gulp` for `≤1.21.1`: `gulp serve` / `gulp bundle --ship`. https://learn.microsoft.com/sharepoint/dev/spfx/set-up-your-development-environment
