@@ -1,5 +1,5 @@
 import { Chess } from 'chess.js';
-import { eloConfig, parsePvs, pickMove } from './elo';
+import { eloConfig } from './elo';
 
 export interface SearchRequest {
   id: number;
@@ -22,17 +22,10 @@ let initTimer: ReturnType<typeof setTimeout> | null = null;
 let pendingId: number | null = null;
 let searchTimer: ReturnType<typeof setTimeout> | null = null;
 let currentFen = '';
-let currentEloKey = '';
-let infoBuffer: string[] = [];
 let trackedDepth = 0;
 let trackedNodes = 0;
 let trackedScore = 0;
 let trackedMate = false;
-
-function randomLegalMove(fen: string): string | null {
-  const legal = new Chess(fen).moves({ verbose: false });
-  return legal.length > 0 ? legal[Math.floor(Math.random() * legal.length)] : null;
-}
 
 function clearSearchTimer(): void {
   if (searchTimer !== null) {
@@ -78,18 +71,14 @@ function onBestMoveLine(line: string): void {
   clearSearchTimer();
   if (id === null) return;
 
-  const best = line.match(/^bestmove (\S+)/)?.[1] ?? '(none)';
+  const raw = line.match(/^bestmove (\S+)/)?.[1] ?? '(none)';
   const legal = new Chess(currentFen).moves({ verbose: false });
-
   let move: string | null = null;
-  if (best !== '(none)') {
-    const pvs = parsePvs(infoBuffer.join('\n'));
-    pvs.unshift({ move: best, score: trackedScore, mate: trackedMate });
-    const seen = new Set<string>();
-    const unique = pvs.filter((p) => (seen.has(p.move) ? false : (seen.add(p.move), true)));
-    const config = eloConfig(currentEloKey);
-    move = pickMove(unique, config, legal);
-    if (!move) move = legal[Math.floor(Math.random() * legal.length)] ?? null;
+  if (raw !== '(none)' && legal.includes(raw)) {
+    move = raw;
+  } else if (raw !== '(none)') {
+    // Engine returned illegal (rare with Chess960/pawn promo edge) — fall back to random legal.
+    move = legal[Math.floor(Math.random() * legal.length)] ?? null;
   } else {
     move = legal[Math.floor(Math.random() * legal.length)] ?? null;
   }
@@ -113,7 +102,6 @@ function onEngineMessage(event: MessageEvent): void {
   }
   if (pendingId === null) return;
   if (line.startsWith('info')) {
-    infoBuffer.push(line);
     trackInfo(line);
     return;
   }
@@ -158,26 +146,35 @@ self.onmessage = (event: MessageEvent<SearchRequest>) => {
 
   const config = eloConfig(msg.eloKey);
 
-  if (config.blunder > 0 && Math.random() < config.blunder) {
-    self.postMessage({ id: msg.id, type: 'bestmove', move: legal[Math.floor(Math.random() * legal.length)], depth: 0, nodes: 0, score: 0 } satisfies EngineResponse);
-    return;
-  }
-
   clearSearchTimer();
   pendingId = msg.id;
   currentFen = msg.fen;
-  currentEloKey = msg.eloKey;
-  infoBuffer = [];
   trackedDepth = 0;
   trackedNodes = 0;
   trackedScore = 0;
   trackedMate = false;
 
   try {
-    sf.postMessage(`setoption name MultiPV value ${config.multiPv}`);
+    // Delegate weakening to the engine — Stockfish docs:
+    //  UCI_LimitStrength + UCI_Elo (1320-3190) overrides Skill Level.
+    //  Full strength = LimitStrength off, Skill 20, MultiPV 1.
+    // See https://official-stockfish.github.io/docs/stockfish-wiki/UCI-&-Commands.html
+    if (config.limitStrength) {
+      const elo = Math.max(1320, Math.min(3190, config.uciElo ?? 1320));
+      sf.postMessage('setoption name UCI_LimitStrength value true');
+      sf.postMessage(`setoption name UCI_Elo value ${elo}`);
+      sf.postMessage('setoption name Skill Level value 20');
+    } else {
+      sf.postMessage('setoption name UCI_LimitStrength value false');
+      sf.postMessage(`setoption name Skill Level value ${config.skillLevel}`);
+    }
+    sf.postMessage('setoption name MultiPV value 1');
+    // UCI_AnalyseMode false gives slightly deeper search when handicapped
+    sf.postMessage('setoption name UCI_AnalyseMode value false');
     sf.postMessage(`position fen ${msg.fen}`);
-    sf.postMessage(`go movetime ${config.movetime}`);
-  } catch (err) {
+    const goCmd = config.depth !== undefined ? `go movetime ${config.movetime} depth ${config.depth}` : `go movetime ${config.movetime}`;
+    sf.postMessage(goCmd);
+  } catch {
     pendingId = null;
     self.postMessage({ id: msg.id, type: 'bestmove', move: legal[Math.floor(Math.random() * legal.length)], depth: 0, nodes: 0, score: 0 } satisfies EngineResponse);
     return;
