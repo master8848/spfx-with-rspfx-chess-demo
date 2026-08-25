@@ -66,8 +66,6 @@ export default {
       version: '1.0.0',
       framework: 'solid',
       spfxVersion: '1.22',
-      language: 'typescript',
-      fluent: false,
       dev: {
         port: 4321,
         https: true,
