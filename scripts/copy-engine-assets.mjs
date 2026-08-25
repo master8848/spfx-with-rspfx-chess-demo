@@ -15,12 +15,17 @@ const DIST_DIR = resolve(ROOT, 'dist');
 async function main() {
   await ensureEngineAssets();
   await mkdir(DIST_DIR, { recursive: true });
+  const assetsDir = resolve(DIST_DIR, 'assets');
+  await mkdir(assetsDir, { recursive: true });
   for (const name of FILES) {
     const src = resolve(OUT_DIR, name);
     const out = resolve(DIST_DIR, name);
     await copyFile(src, out);
     const size = ((await stat(out)).size / (1024 * 1024)).toFixed(2);
     console.log(`copied ${name} -> dist/ (${size} MB)`);
+    const outAssets = resolve(assetsDir, name);
+    await copyFile(src, outAssets);
+    console.log(`copied ${name} -> dist/assets/ (${size} MB)`);
   }
 }
 
