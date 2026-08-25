@@ -35,11 +35,10 @@
     "@mbsks/rspfx-cli": "^0.0.14",
     "@mbsks/rspfx-plugin": "^0.0.14",
     "@mbsks/rspfx-plugin-api": "^0.0.14",
+    "@rsbuild/core": "^1.6.0",
     "@tailwindcss/postcss": "^4.3.3",
     "postcss": "^8.5.25",
-    "postcss-loader": "^8.2.1",
     "tailwindcss": "^4.3.3",
-    "typescript": "^7.0.2",
-    "vite": "^7.0.0"
+    "typescript": "^7.0.2"
   }
 }
