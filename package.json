@@ -19,7 +19,7 @@
     "postinstall": "node scripts/patch-rspfx-tailwind.mjs || true"
   },
   "dependencies": {
-    "@mbsks/rspfx-framework-solid": "^0.0.14",
+    "@mbsks/rspfx-framework-solid": "^0.0.15",
     "@microsoft/sp-component-base": "1.22.0",
     "@microsoft/sp-core-library": "1.22.0",
     "@microsoft/sp-property-pane": "1.22.0",
@@ -32,13 +32,27 @@
     "solid-js": "^1.9.4"
   },
   "devDependencies": {
-    "@mbsks/rspfx-cli": "^0.0.14",
-    "@mbsks/rspfx-plugin": "^0.0.14",
-    "@mbsks/rspfx-plugin-api": "^0.0.14",
+    "@mbsks/rspfx-cli": "^0.0.15",
+    "@mbsks/rspfx-plugin": "^0.0.15",
+    "@mbsks/rspfx-plugin-api": "^0.0.15",
     "@rsbuild/core": "^1.6.0",
     "@tailwindcss/postcss": "^4.3.3",
     "postcss": "^8.5.25",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2"
+  },
+  "overrides": {
+    "@mbsks/rspfx-core": "^0.0.15",
+    "@mbsks/rspfx-diagnostics": "^0.0.15",
+    "@mbsks/rspfx-compiler-rspack": "^0.0.15",
+    "@mbsks/rspfx-manifest-server": "^0.0.15",
+    "@mbsks/rspfx-manifest-generator": "^0.0.15",
+    "@mbsks/rspfx-dev-runtime": "^0.0.15",
+    "@mbsks/rspfx-sharepoint-runtime": "^0.0.15",
+    "@mbsks/rspfx-sppkg-builder": "^0.0.15",
+    "@mbsks/rspfx-templates": "^0.0.15",
+    "@mbsks/rspfx-plugin": "^0.0.15",
+    "@mbsks/rspfx-plugin-api": "^0.0.15",
+    "@mbsks/rspfx-framework-solid": "^0.0.15"
   }
 }
