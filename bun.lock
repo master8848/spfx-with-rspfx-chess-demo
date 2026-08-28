@@ -5,7 +5,7 @@
     "": {
       "name": "spfx-chess",
       "dependencies": {
-        "@mbsks/rspfx-framework-solid": "^0.0.14",
+        "@mbsks/rspfx-framework-solid": "^0.0.15",
         "@microsoft/sp-component-base": "1.22.0",
         "@microsoft/sp-core-library": "1.22.0",
         "@microsoft/sp-property-pane": "1.22.0",
@@ -18,9 +18,9 @@
         "solid-js": "^1.9.4",
       },
       "devDependencies": {
-        "@mbsks/rspfx-cli": "^0.0.14",
-        "@mbsks/rspfx-plugin": "^0.0.14",
-        "@mbsks/rspfx-plugin-api": "^0.0.14",
+        "@mbsks/rspfx-cli": "^0.0.15",
+        "@mbsks/rspfx-plugin": "^0.0.15",
+        "@mbsks/rspfx-plugin-api": "^0.0.15",
         "@tailwindcss/postcss": "^4.3.3",
         "postcss": "^8.5.25",
         "tailwindcss": "^4.3.3",
@@ -28,6 +28,20 @@
         "vite": "^7.0.0",
       },
     },
+  },
+  "overrides": {
+    "@mbsks/rspfx-compiler-rspack": "^0.0.15",
+    "@mbsks/rspfx-core": "^0.0.15",
+    "@mbsks/rspfx-dev-runtime": "^0.0.15",
+    "@mbsks/rspfx-diagnostics": "^0.0.15",
+    "@mbsks/rspfx-framework-solid": "^0.0.15",
+    "@mbsks/rspfx-manifest-generator": "^0.0.15",
+    "@mbsks/rspfx-manifest-server": "^0.0.15",
+    "@mbsks/rspfx-plugin": "^0.0.15",
+    "@mbsks/rspfx-plugin-api": "^0.0.15",
+    "@mbsks/rspfx-sharepoint-runtime": "^0.0.15",
+    "@mbsks/rspfx-sppkg-builder": "^0.0.15",
+    "@mbsks/rspfx-templates": "^0.0.15",
   },
   "packages": {
     "@alloc/quick-lru": ["@alloc/quick-lru@5.2.0", "", {}, "sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw=="],
@@ -390,21 +404,21 @@
 
     "@leichtgewicht/ip-codec": ["@leichtgewicht/ip-codec@2.0.5", "", {}, "sha512-Vo+PSpZG2/fmgmiNzYK9qWRh8h/CHrwD0mo1h1DzL4yzHNSfWYujGTYsWGreD000gcgmZ7K4Ys6Tx9TxtsKdDw=="],
 
-    "@mbsks/rspfx-cli": ["@mbsks/rspfx-cli@0.0.14", "", { "dependencies": { "@mbsks/rspfx-compiler-rspack": "0.0.14", "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-dev-runtime": "0.0.14", "@mbsks/rspfx-diagnostics": "0.0.14", "@mbsks/rspfx-manifest-generator": "0.0.14", "@mbsks/rspfx-manifest-server": "0.0.14", "@mbsks/rspfx-plugin": "0.0.14", "@mbsks/rspfx-plugin-api": "0.0.14", "@mbsks/rspfx-sharepoint-runtime": "0.0.14", "@mbsks/rspfx-sppkg-builder": "0.0.14", "@mbsks/rspfx-templates": "0.0.14", "commander": "^12.1.0", "jiti": "^2.4.0" }, "bin": { "rspfx": "dist/cli.js" } }, "sha512-1Om2w5xcN4ViVwrYnFu6S13c2sgrKgl2EB3lhmCXy3gQub/V+A9TuVCgwzEGsp6gY1upe4cvGqrjV6yv9nsldQ=="],
+    "@mbsks/rspfx-cli": ["@mbsks/rspfx-cli@0.0.15", "", { "dependencies": { "@mbsks/rspfx-compiler-rspack": "0.0.14", "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-dev-runtime": "0.0.14", "@mbsks/rspfx-diagnostics": "0.0.14", "@mbsks/rspfx-manifest-generator": "0.0.14", "@mbsks/rspfx-manifest-server": "0.0.14", "@mbsks/rspfx-plugin": "0.0.14", "@mbsks/rspfx-plugin-api": "0.0.14", "@mbsks/rspfx-sharepoint-runtime": "0.0.14", "@mbsks/rspfx-sppkg-builder": "0.0.14", "@mbsks/rspfx-templates": "0.0.14", "commander": "^12.1.0", "jiti": "^2.4.0" }, "bin": { "rspfx": "dist/cli.js" } }, "sha512-+OVjK2aauddAO6FzMQkhbVedVmNr/kv0GKOopQkEft4m0NsUzFVV4sbuE3Ses6ziYppmHU5i0SpAjf8aCjDkxQ=="],
 
-    "@mbsks/rspfx-compiler-rspack": ["@mbsks/rspfx-compiler-rspack@0.0.14", "", { "dependencies": { "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-diagnostics": "0.0.14", "@mbsks/rspfx-plugin-api": "0.0.14", "@rspack/core": "^1.2.0", "@rspack/dev-server": "^1.0.0", "css-loader": "^7.1.2", "postcss": "^8.4.49", "postcss-loader": "^8.1.1", "sass": "^1.83.0", "sass-loader": "^16.0.4", "style-loader": "^4.0.0" } }, "sha512-0QZ6/dpxEOmZbUS+PBoendsrZIvoqMt/u0OpS5+8l6NaSSgelFh6KhWnTr8cXleQn8Vma2QqISRnAQEPg9bnbg=="],
+    "@mbsks/rspfx-compiler-rspack": ["@mbsks/rspfx-compiler-rspack@0.0.15", "", { "dependencies": { "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-diagnostics": "0.0.14", "@mbsks/rspfx-plugin-api": "0.0.14", "@rspack/core": "^1.2.0", "@rspack/dev-server": "^1.0.0", "css-loader": "^7.1.2", "postcss": "^8.4.49", "postcss-loader": "^8.1.1", "sass": "^1.83.0", "sass-loader": "^16.0.4", "style-loader": "^4.0.0" } }, "sha512-e5OUTHPb/ysEPuYQMeteBXj6lWYxcJhoYf0Zb8lI1np/6HXNlr0ZGxd76cmaG/VnIBweM7uDYr++4XDDjyia7A=="],
 
-    "@mbsks/rspfx-core": ["@mbsks/rspfx-core@0.0.14", "", {}, "sha512-rf2vMshAI22z/N+pCl9nNNOpeFHWfbZS1EOsnmP5TH/TjZLFw4iCsW/QZ0EhfRSk+czIds1pa170340rnMb3+Q=="],
+    "@mbsks/rspfx-core": ["@mbsks/rspfx-core@0.0.15", "", {}, "sha512-4Q/Jq9ZBaDrCIZAktf6ZoSBzLoxD1Te2mCnLH4Mpwt+UOW72tW8psCEnuT5UWsSRXQ690fkZm5Q8M2Z89UlMlA=="],
 
-    "@mbsks/rspfx-dev-runtime": ["@mbsks/rspfx-dev-runtime@0.0.14", "", { "dependencies": { "@mbsks/rspfx-compiler-rspack": "0.0.14", "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-diagnostics": "0.0.14", "@mbsks/rspfx-framework-preact": "0.0.14", "@mbsks/rspfx-framework-react": "0.0.14", "@mbsks/rspfx-framework-solid": "0.0.14", "@mbsks/rspfx-framework-svelte": "0.0.14", "@mbsks/rspfx-framework-vanilla": "0.0.14", "@mbsks/rspfx-framework-vue": "0.0.14", "@mbsks/rspfx-manifest-generator": "0.0.14", "@mbsks/rspfx-manifest-server": "0.0.14", "@mbsks/rspfx-plugin-api": "0.0.14", "@mbsks/rspfx-sharepoint-runtime": "0.0.14" } }, "sha512-yFyI1kWSybiNO6o65uVbkSpjcgaxZGynqqjC58Tzrddj0DF675ONI+vU6LgoM9HlLO4sP8V2mj1dXD+VhQ+t3g=="],
+    "@mbsks/rspfx-dev-runtime": ["@mbsks/rspfx-dev-runtime@0.0.15", "", { "dependencies": { "@mbsks/rspfx-compiler-rspack": "0.0.14", "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-diagnostics": "0.0.14", "@mbsks/rspfx-framework-preact": "0.0.14", "@mbsks/rspfx-framework-react": "0.0.14", "@mbsks/rspfx-framework-solid": "0.0.14", "@mbsks/rspfx-framework-svelte": "0.0.14", "@mbsks/rspfx-framework-vanilla": "0.0.14", "@mbsks/rspfx-framework-vue": "0.0.14", "@mbsks/rspfx-manifest-generator": "0.0.14", "@mbsks/rspfx-manifest-server": "0.0.14", "@mbsks/rspfx-plugin-api": "0.0.14", "@mbsks/rspfx-sharepoint-runtime": "0.0.14" } }, "sha512-NjAVADLhj+iDsv48vVFKeDY1cVkPonNVzWOJjrFi0g6CxkRul4bU1hIzhKR/05LMkcPB6xh9S5lfH8El8cnJwA=="],
 
-    "@mbsks/rspfx-diagnostics": ["@mbsks/rspfx-diagnostics@0.0.14", "", { "dependencies": { "@mbsks/rspfx-core": "0.0.14" } }, "sha512-lhmflb9AUoGZGQdPR3fnTeZyMR8FxJ96s/w8Baq7uAwF6beKqxJ7zyFE+QT1fTmR+MmsxGkbnm0WAb8dBAQNPA=="],
+    "@mbsks/rspfx-diagnostics": ["@mbsks/rspfx-diagnostics@0.0.15", "", { "dependencies": { "@mbsks/rspfx-core": "0.0.14" } }, "sha512-cXxMn5tDL/jWWhT2/0AUNDXIxTChPwQ5Ef46FE0PBGz9ZAgu0frhVoUgI8Z58FqmBL8HVDVifiiFsooFSerEzg=="],
 
     "@mbsks/rspfx-framework-preact": ["@mbsks/rspfx-framework-preact@0.0.14", "", { "dependencies": { "@babel/core": "^7.26.0", "@babel/preset-react": "^7.26.0", "@babel/preset-typescript": "^7.26.0", "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-plugin-api": "0.0.14", "@mbsks/rspfx-webpart-base": "0.0.14", "@prefresh/babel-plugin": "^0.5.2", "@prefresh/vite": "^2.4.12", "@rspack/plugin-preact-refresh": "^1.0.0", "babel-loader": "^9.2.1" }, "peerDependencies": { "preact": "^10.24.0" } }, "sha512-DoPhTlmovfAM/kZARieEzpYPerV9IHFBZ7ehFFU3ZZdylI/vnbdE3KN+AsMAMfN8qJ/ntwwGZ1JUzYIP2mGqcg=="],
 
     "@mbsks/rspfx-framework-react": ["@mbsks/rspfx-framework-react@0.0.14", "", { "dependencies": { "@babel/core": "^7.26.0", "@babel/preset-react": "^7.26.0", "@babel/preset-typescript": "^7.26.0", "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-plugin-api": "0.0.14", "@mbsks/rspfx-webpart-base": "0.0.14", "@rspack/plugin-react-refresh": "^1.0.0", "@vitejs/plugin-react": "^4.7.0", "babel-loader": "^9.2.1", "react-refresh": "^0.16.0" }, "peerDependencies": { "react": "^18.0.0", "react-dom": "^18.0.0" } }, "sha512-YSp6+U2OQcvfc0tN+BVzTjRbqR8flFaMqxVz312hya219serhWOb1XZcv6HE+qWjybLv1mcdF64ey0tpO4j6xQ=="],
 
-    "@mbsks/rspfx-framework-solid": ["@mbsks/rspfx-framework-solid@0.0.14", "", { "dependencies": { "@babel/core": "^7.26.0", "@babel/preset-typescript": "^7.26.0", "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-plugin-api": "0.0.14", "@mbsks/rspfx-webpart-base": "0.0.14", "babel-loader": "^9.2.1", "babel-preset-solid": "^1.9.4", "solid-refresh": "^0.7.8", "vite-plugin-solid": "^2.11.0" }, "peerDependencies": { "solid-js": "^1.9.0" } }, "sha512-cL+shzEk1mXkWKA5KT1pj/vp9HGkMQtysJkiTUscx2qGViQanweV169jjkNKQSe8o2FZAtsuUv66P9D5moFOxQ=="],
+    "@mbsks/rspfx-framework-solid": ["@mbsks/rspfx-framework-solid@0.0.15", "", { "dependencies": { "@babel/core": "^7.26.0", "@babel/preset-typescript": "^7.26.0", "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-plugin-api": "0.0.14", "@mbsks/rspfx-webpart-base": "0.0.14", "babel-loader": "^9.2.1", "babel-preset-solid": "^1.9.4", "solid-refresh": "^0.7.8", "vite-plugin-solid": "^2.11.0" }, "peerDependencies": { "solid-js": "^1.9.0" } }, "sha512-rl2Cwu4mRpcRcXAUqiz1fyBPj8YGyqp5Q8nwSknUmK1cZNAb9aX0troWKhi3gjl9SxaGyJjHSZoy0ybSlCP+Hg=="],
 
     "@mbsks/rspfx-framework-svelte": ["@mbsks/rspfx-framework-svelte@0.0.14", "", { "dependencies": { "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-plugin-api": "0.0.14", "@mbsks/rspfx-webpart-base": "0.0.14", "@sveltejs/vite-plugin-svelte": "^3.1.0", "svelte-hmr": "^0.16.0", "svelte-loader": "^3.2.4" }, "peerDependencies": { "svelte": "^4.2.0 || ^5.0.0" } }, "sha512-Eu4S8OC97FFCdWdfKWiRHULQ36LMfzN+4fbD0oVzFt+NrEnN/6s84RXnbUou+wYQMFGruskanHcP9IM86uqYcw=="],
 
@@ -412,19 +426,19 @@
 
     "@mbsks/rspfx-framework-vue": ["@mbsks/rspfx-framework-vue@0.0.14", "", { "dependencies": { "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-plugin-api": "0.0.14", "@mbsks/rspfx-webpart-base": "0.0.14", "@vitejs/plugin-vue": "^5.2.0", "@vue/compiler-sfc": "^3.5.13", "vue-loader": "^17.4.2" }, "peerDependencies": { "vue": "^3.5.0" } }, "sha512-oG2kk3BLHlsdzmBduZbqy/cz32RiGujWkTamNjiujRrap1zdr2I5nJNxDeZEAUarWDGEez2lyJFYw0SxNQuz+g=="],
 
-    "@mbsks/rspfx-manifest-generator": ["@mbsks/rspfx-manifest-generator@0.0.14", "", { "dependencies": { "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-diagnostics": "0.0.14" } }, "sha512-AwlDx34l8s6uGicA2tgKPtqfjsCoPxSQduNBqCEg2EAibW/tLaMpxTsKbH4FGSulpWI2ZyBiQ9+6vjqZiw61Ug=="],
+    "@mbsks/rspfx-manifest-generator": ["@mbsks/rspfx-manifest-generator@0.0.15", "", { "dependencies": { "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-diagnostics": "0.0.14" } }, "sha512-QwdVYEQ3foiBNafB/C3ogMvIRZiYNlY78EjOL89IDeyfWtktj7IoAXgqBWjXWlgHT1ZTFxNOOdSZLtXPKu3uTA=="],
 
-    "@mbsks/rspfx-manifest-server": ["@mbsks/rspfx-manifest-server@0.0.14", "", { "dependencies": { "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-diagnostics": "0.0.14", "selfsigned": "^2.4.1" } }, "sha512-4REZLQC+x41g57tT5B7V+2w0TNqgSHXSKhQe8hgTw9seiA2YMDVP7xcw2vgd8O/prZnbXRBVnXaNMziPqbTUWw=="],
+    "@mbsks/rspfx-manifest-server": ["@mbsks/rspfx-manifest-server@0.0.15", "", { "dependencies": { "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-diagnostics": "0.0.14", "selfsigned": "^2.4.1" } }, "sha512-ujryz//Lenix+qfMwKP99uBvU7mUX09+89HYbqiT/Pz7BBE7IUSPx4Wa986TtH/iRBaC4siB+pXACeNQYqRA7Q=="],
 
-    "@mbsks/rspfx-plugin": ["@mbsks/rspfx-plugin@0.0.14", "", { "dependencies": { "@mbsks/rspfx-compiler-rspack": "0.0.14", "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-dev-runtime": "0.0.14", "@mbsks/rspfx-diagnostics": "0.0.14", "@mbsks/rspfx-manifest-generator": "0.0.14", "@mbsks/rspfx-manifest-server": "0.0.14", "@mbsks/rspfx-plugin-api": "0.0.14", "@rspack/core": "^1.2.0" }, "peerDependencies": { "@rsbuild/core": "^2.1.9" }, "optionalPeers": ["@rsbuild/core"] }, "sha512-hj7sRuImM5D2ozIkJ2sgeftY38TKN1UfXMKy2zuKX+5BBxrxWCY7j7iAn18ZRlJtaKROULiOD9ksoxhGI2buwA=="],
+    "@mbsks/rspfx-plugin": ["@mbsks/rspfx-plugin@0.0.15", "", { "dependencies": { "@mbsks/rspfx-compiler-rspack": "0.0.14", "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-dev-runtime": "0.0.14", "@mbsks/rspfx-diagnostics": "0.0.14", "@mbsks/rspfx-manifest-generator": "0.0.14", "@mbsks/rspfx-manifest-server": "0.0.14", "@mbsks/rspfx-plugin-api": "0.0.14", "@rspack/core": "^1.2.0" }, "peerDependencies": { "@rsbuild/core": "^2.1.9" }, "optionalPeers": ["@rsbuild/core"] }, "sha512-x5KI9LEtpRN+DrYfRWHZMoO47mu0pMflDEhnNPNyKihetTqhsU6MbQlAe7GEsX0aCfgDbDDtztthRE0eutuddQ=="],
 
-    "@mbsks/rspfx-plugin-api": ["@mbsks/rspfx-plugin-api@0.0.14", "", { "dependencies": { "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-diagnostics": "0.0.14" } }, "sha512-7NTIEbmd/7kd/j167NDSDfMdcpZwRDtXvJWyjwFiQHA+CcmLT5tS4KfcYbTSWpuHP9QneRqDEN+kVKwRJzL+GA=="],
+    "@mbsks/rspfx-plugin-api": ["@mbsks/rspfx-plugin-api@0.0.15", "", { "dependencies": { "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-diagnostics": "0.0.14" } }, "sha512-sFIvRobTEYpqey1Sf3I7pSBroadOrJ59gLzLQ5SKBgOQe8daeJDcpSxdMu5fKEwuLEidE8Lreth9oyuLO/+aIg=="],
 
-    "@mbsks/rspfx-sharepoint-runtime": ["@mbsks/rspfx-sharepoint-runtime@0.0.14", "", { "dependencies": { "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-diagnostics": "0.0.14" }, "peerDependencies": { "@microsoft/sp-component-base": "*", "@microsoft/sp-core-library": "*", "@microsoft/sp-http": "*", "@microsoft/sp-page-context": "*", "@microsoft/sp-webpart-base": "*" } }, "sha512-NfgyqrKcVhvmVCuF0AjS+FdYLEvG0aIzxqd8QUm2SjIDCn3HXER9YtunV2Cx9gGUKKEO/DnHBkLjqGZ/eA0rCQ=="],
+    "@mbsks/rspfx-sharepoint-runtime": ["@mbsks/rspfx-sharepoint-runtime@0.0.15", "", { "dependencies": { "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-diagnostics": "0.0.14" }, "peerDependencies": { "@microsoft/sp-component-base": "*", "@microsoft/sp-core-library": "*", "@microsoft/sp-http": "*", "@microsoft/sp-page-context": "*", "@microsoft/sp-webpart-base": "*" } }, "sha512-oS3cZX2Zxs//SJLpT3JvcAiscCKHCcxUsAt6NDE8kGnoooVMkPzrmw6k7Q8DkDGuWgc+xKbehP6Z4WhV1qU2cA=="],
 
-    "@mbsks/rspfx-sppkg-builder": ["@mbsks/rspfx-sppkg-builder@0.0.14", "", { "dependencies": { "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-diagnostics": "0.0.14", "fflate": "^0.8.2" } }, "sha512-hOLVgo3jHYs4cFfo5So+pJmygr7rxY6oeEnn8TIfeI484AJkuT0QKdxEXulFTJsdPo9zUR+Cn2AAhGV2O6gLbA=="],
+    "@mbsks/rspfx-sppkg-builder": ["@mbsks/rspfx-sppkg-builder@0.0.15", "", { "dependencies": { "@mbsks/rspfx-core": "0.0.14", "@mbsks/rspfx-diagnostics": "0.0.14", "fflate": "^0.8.2" } }, "sha512-YXJwN1yYEOD151nVrGzREOqpM1uJNmUDv9T+A3uy6Y2wJKaHqsRjI6tAUsFk32/1iNs2pT6kRi4UpFPKgkYzCg=="],
 
-    "@mbsks/rspfx-templates": ["@mbsks/rspfx-templates@0.0.14", "", { "dependencies": { "@mbsks/rspfx-core": "0.0.14" } }, "sha512-iTpEM1UaZTQ1ZIRa/mucOBkg6BmTXvJINKYcEg0kYV64H0smXh83elmFNklaibhEBDvMOK533NDl6xRdwAEmxA=="],
+    "@mbsks/rspfx-templates": ["@mbsks/rspfx-templates@0.0.15", "", { "dependencies": { "@mbsks/rspfx-core": "0.0.14" } }, "sha512-/x5hRUS5H7zyfv/p5OLzaOfmfuxZuANzPFTlbF3WP3zvK60kpUHvSgzV0ZWKVquDHm5ek17gob4oF1z6NgEQLQ=="],
 
     "@mbsks/rspfx-webpart-base": ["@mbsks/rspfx-webpart-base@0.0.14", "", { "peerDependencies": { "@microsoft/sp-webpart-base": "^1.20.0 || ^1.21.0 || ^1.22.0 || ^1.23.0" } }, "sha512-QhLv7n2Fl82hgI9/yewu07Rgd6xw2rPm50DrOLKGOYyMM+6s3CO/EjC7/GSYTsSO+jIEatftOBQZE8U6kANyTQ=="],
 
